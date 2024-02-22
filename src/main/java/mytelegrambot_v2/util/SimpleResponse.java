@@ -1,13 +1,13 @@
 package mytelegrambot_v2.util;
 
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
 /**
  * A simple generic wrapper class for holding a result of type T.
  *
  * @param <T> The type of the result
  */
-@Getter
+@Data
 @AllArgsConstructor
 public class SimpleResponse<T> {
     /**

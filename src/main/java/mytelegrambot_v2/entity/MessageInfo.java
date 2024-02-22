@@ -1,8 +1,6 @@
 package mytelegrambot_v2.entity;
 import jakarta.persistence.*;
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDate;
 
@@ -11,6 +9,8 @@ import java.time.LocalDate;
  */
 @Entity
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class MessageInfo {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

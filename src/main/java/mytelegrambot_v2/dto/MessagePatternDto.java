@@ -1,15 +1,15 @@
 package mytelegrambot_v2.dto;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
 
 /**
  * Data Transfer Object (DTO) representing a message pattern.
  */
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 public class MessagePatternDto {
     /**
      * The ID of the message pattern.

@@ -1,7 +1,7 @@
 package mytelegrambot_v2.services.impl;
 
 import jakarta.ws.rs.NotFoundException;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import mytelegrambot_v2.dto.MessagePatternDto;
 import mytelegrambot_v2.entity.MessagePattern;
 import mytelegrambot_v2.mappers.MessagePatternMapper;
@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
  * Service class for managing message patterns.
  */
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class MessagePatternServiceImpl implements MessagePatternService {
     private final MessagePatternRepository messagePatternRepository;
     /**
@@ -59,9 +59,6 @@ public class MessagePatternServiceImpl implements MessagePatternService {
      * @param id The ID of the message pattern to retrieve.
      * @return The DTO of the retrieved message pattern.
      */
-//    public MessagePatternDto getMessagePatternById(Long id) {
-//        return MessagePatternMapper.toDto(Objects.requireNonNull(messagePatternRepository.findById(id).orElse(null)));
-//    }
     public MessagePatternDto getMessagePatternById(Long id) {
         MessagePattern messagePattern = messagePatternRepository.findById(id).orElse(null);
         if (messagePattern != null) {

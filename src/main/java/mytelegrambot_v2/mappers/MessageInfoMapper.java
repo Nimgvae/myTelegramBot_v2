@@ -11,7 +11,7 @@ public class MessageInfoMapper {
      * @param messageInfo The MessageInfo entity to convert.
      * @return The corresponding MessageInfoDto DTO.
      */
-public static MessageInfoDto toDto(MessageInfo messageInfo) {
+    public static MessageInfoDto toDto(MessageInfo messageInfo) {
     MessageInfoDto messageInfoDto = new MessageInfoDto();
     messageInfoDto.setDate(messageInfo.getDate());
     messageInfoDto.setId(messageInfo.getId());

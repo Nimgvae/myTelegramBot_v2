@@ -212,19 +212,39 @@ public class TelegramBotUserServiceImpl implements TelegramBotUserService {
      * @return Motivational text extracted from the JSON response.
      */
 
+//    public String filterMotivationalContent(String jsonResponse) {
+//        JSONObject responseObj = new JSONObject(jsonResponse);
+//        JSONArray choicesArray = responseObj.getJSONArray("choices");
+//        StringBuilder motivationalContent = new StringBuilder();
+//        for (int i = 0; i < choicesArray.length(); i++) {
+//            JSONObject choiceObj = choicesArray.getJSONObject(i);
+//            JSONObject messageObj = choiceObj.getJSONObject("message");
+//            String role = messageObj.getString("role");
+//            String content = messageObj.getString("content");
+//            if (role.equals("assistant")) {
+//                motivationalContent.append(content).append("\n");
+//            }
+//        }
+//        return motivationalContent.toString();
+//    }
     public String filterMotivationalContent(String jsonResponse) {
         JSONObject responseObj = new JSONObject(jsonResponse);
-        JSONArray choicesArray = responseObj.getJSONArray("choices");
-        StringBuilder motivationalContent = new StringBuilder();
-        for (int i = 0; i < choicesArray.length(); i++) {
-            JSONObject choiceObj = choicesArray.getJSONObject(i);
-            JSONObject messageObj = choiceObj.getJSONObject("message");
-            String role = messageObj.getString("role");
-            String content = messageObj.getString("content");
-            if (role.equals("assistant")) {
-                motivationalContent.append(content).append("\n");
+        if (responseObj.has("choices")) {
+            JSONArray choicesArray = responseObj.getJSONArray("choices");
+            StringBuilder motivationalContent = new StringBuilder();
+            for (int i = 0; i < choicesArray.length(); i++) {
+                JSONObject choiceObj = choicesArray.getJSONObject(i);
+                JSONObject messageObj = choiceObj.getJSONObject("message");
+                String role = messageObj.getString("role");
+                String content = messageObj.getString("content");
+                if (role.equals("assistant")) {
+                    motivationalContent.append(content).append("\n");
+                }
             }
+            return motivationalContent.toString();
+        } else {
+            logger.error("No 'choices' array found in the response from GPT.");
+            return "Failed to retrieve motivation. Please try again later.";
         }
-        return motivationalContent.toString();
     }
 }

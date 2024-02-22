@@ -1,5 +1,5 @@
 package mytelegrambot_v2.services.impl;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import mytelegrambot_v2.dto.StatisticDto;
 import mytelegrambot_v2.mappers.StatisticMapper;
 import mytelegrambot_v2.repositories.StatisticRepository;
@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
  * Service class for managing statistics.
  */
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class StatisticServiceImpl implements StatisticService {
     private final StatisticRepository statisticRepository;
     /**
@@ -46,6 +46,7 @@ public class StatisticServiceImpl implements StatisticService {
     public StatisticDto addStatistic(StatisticDto statisticDto) {
         return StatisticMapper.mapToStatisticDto(statisticRepository.save(StatisticMapper.mapToStatisticFromDto(statisticDto)));
     }
+
     /**
      * Updates an existing statistic.
      *

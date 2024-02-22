@@ -38,10 +38,12 @@ public class ServiceEmail {
                 }
                 else{
                     message.setEmail(false);
+
                 }
 
             } catch (MailException e) {
                 logger.error("Error sending email. PersonId: " + message.getMessageInfoDto().getPerson().getChatId(), e);
+                throw e;
             }
         }
         return messages;
@@ -54,6 +56,4 @@ public class ServiceEmail {
         messageInfoServiceImpl.updateMessInfoStatus(true, messageId);;
 
     }
-
-
 }

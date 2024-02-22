@@ -1,5 +1,4 @@
 package mytelegrambot_v2.dto;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -10,8 +9,8 @@ import java.sql.Timestamp;
  * Data Transfer Object (DTO) representing a statistic in the context of a Telegram bot.
  */
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 public class StatisticDto {
     /**
      * The ID of the statistic.

@@ -25,7 +25,7 @@ public class StatisticController {
     @GetMapping("/{id}/get_statistic")
     public SimpleResponse<?> getStatisticById(@PathVariable Long id){
         StatisticDto statDto = statisticServiceImpl.getStatisticById(id);
-        if(statDto.equals(null)){
+        if(statDto == null){
             return new SimpleResponse<>(HttpStatus.NOT_FOUND);
         }
         return new SimpleResponse<>(statDto);
@@ -57,11 +57,10 @@ public class StatisticController {
      * @param id The ID of the statistic to update.
      * @return SimpleResponse indicating success or failure.
      */
-
     @PutMapping("/{id}/update_statistic")
     public SimpleResponse<?> updateStatistic(@RequestBody @NonNull StatisticDto statisticDto, @PathVariable Long id){
         StatisticDto statDto = statisticServiceImpl.updateStatistic(statisticDto, id);
-        if(statDto.equals(null)){
+        if (statDto == null) {
             return new SimpleResponse<>(HttpStatus.NOT_FOUND);
         }
         return new SimpleResponse<>(HttpStatus.OK);
@@ -81,7 +80,7 @@ public class StatisticController {
      * @return ResponseEntity indicating success or failure.
      */
     @DeleteMapping("/delete_all_statistic")
-    public ResponseEntity<Void> deleteStatistic() {
+    public ResponseEntity<Void> deleteAllStatistic() {
         statisticServiceImpl.deleteAllStatistic();
         return ResponseEntity.noContent().build();
     }

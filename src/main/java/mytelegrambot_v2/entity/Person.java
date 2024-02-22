@@ -2,7 +2,9 @@ package mytelegrambot_v2.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.sql.Timestamp;
 /**
@@ -11,6 +13,8 @@ import java.sql.Timestamp;
 @Entity
 @Data
 @Table(name = "person")
+@NoArgsConstructor
+@AllArgsConstructor
 public class Person {
     @Id
     @NotNull(message = "ChatId cannot be null")

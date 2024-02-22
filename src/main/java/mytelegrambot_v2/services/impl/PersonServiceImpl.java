@@ -1,6 +1,6 @@
 package mytelegrambot_v2.services.impl;
 import jakarta.persistence.EntityNotFoundException;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import mytelegrambot_v2.dto.PersonDto;
 import mytelegrambot_v2.entity.Person;
 import mytelegrambot_v2.mappers.PersonMapper;
@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
  * Service class for managing persons.
  */
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class PersonServiceImpl  implements PersonService {
     private final PersonRepository personRepository;
     /**

@@ -1,26 +1,28 @@
 package mytelegrambot_v2.services.impl;
 
 import jakarta.persistence.EntityNotFoundException;
-import lombok.AllArgsConstructor;
+import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
 import mytelegrambot_v2.dto.MessageInfoDto;
+import mytelegrambot_v2.dto.MessagePatternDto;
+import mytelegrambot_v2.dto.PersonDto;
 import mytelegrambot_v2.entity.MessageInfo;
+import mytelegrambot_v2.entity.MessagePattern;
+import mytelegrambot_v2.entity.Person;
 import mytelegrambot_v2.mappers.MessageInfoMapper;
 import mytelegrambot_v2.repositories.MessageInfoRepository;
 import mytelegrambot_v2.services.interfaces.MessageInfoService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
 /**
  * Service class for managing message information entities.
  */
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class MessageInfoServiceImpl implements MessageInfoService {
-    private static final Logger logger = LoggerFactory.getLogger(MessageInfoServiceImpl.class);
+
     private final MessageInfoRepository messageInfoRepository;
     private final PersonServiceImpl personServiceImpl;
     private final MessagePatternServiceImpl messagePatternServiceImpl;
@@ -31,8 +33,10 @@ public class MessageInfoServiceImpl implements MessageInfoService {
      * @return The message info DTO if found, otherwise null.
      */
 
-    public MessageInfoDto getMessInfoById(Long idMessInfo){
-        return MessageInfoMapper.toDto(Objects.requireNonNull(messageInfoRepository.findById(idMessInfo).orElse(null)));
+    public MessageInfoDto getMessInfoById(Long idMessInfo) {
+        MessageInfo messageInfo = messageInfoRepository.findById(idMessInfo)
+                .orElseThrow(() -> new EntityNotFoundException("MessageInfo with ID " + idMessInfo + " not found"));
+        return MessageInfoMapper.toDto(messageInfo);
     }
     /**
      * Retrieves a list of all message info DTOs.
@@ -87,30 +91,25 @@ public class MessageInfoServiceImpl implements MessageInfoService {
      * @param idMessInfo     The ID of the message info entity to update.
      * @return The updated message info DTO.
      */
-//    public MessageInfoDto updateMessInfo(MessageInfoDto messageInfoDto, Long idMessInfo){
-//        MessageInfoDto messageInfoDtoObj = MessageInfoMapper.toDto(Objects.requireNonNull(messageInfoRepository.findById(idMessInfo).orElse(null)));
-//        if (messageInfoDto.getPerson() != null) { // Проверяем, что person не null
-//            messageInfoDtoObj.setPerson(messageInfoDto.getPerson());
-//        }
-//        messageInfoDtoObj.setDate(messageInfoDto.getDate());
-//        messageInfoDtoObj.setPattern(messageInfoDto.getPattern());
-//        messageInfoDtoObj.setStatus(messageInfoDto.isStatus());
-//        logger.info("Messageinfo id: " + messageInfoDto.getId() + " was updated.");
-//        return addMessageInfo(messageInfoDtoObj);
-//    }
-    public MessageInfoDto updateMessInfo(MessageInfoDto messageInfoDto, Long idMessInfo){
+    @Transactional
+    public MessageInfoDto updateMessInfo(MessageInfoDto messageInfoDto, Long idMessInfo) {
         MessageInfo messageInfo = messageInfoRepository.findById(idMessInfo).orElse(null);
         if (messageInfo != null) {
-            MessageInfoDto messageInfoDtoObj = MessageInfoMapper.toDto(messageInfo);
             if (messageInfoDto.getPerson() != null) {
-                messageInfoDtoObj.setPerson(messageInfoDto.getPerson());
+                PersonDto personDto = messageInfoDto.getPerson();
+                Person person = new Person(personDto.getChatId(), personDto.getFirstName(), personDto.getLastName(),
+                        personDto.getEmail(), personDto.getTelegramName(), personDto.getRegisteredAt());
+                messageInfo.setPerson(person);
             }
-            messageInfoDtoObj.setDate(messageInfoDto.getDate());
             if (messageInfoDto.getPattern() != null) {
-                messageInfoDtoObj.setPattern(messageInfoDto.getPattern());
+                MessagePatternDto patternDto = messageInfoDto.getPattern();
+                MessagePattern pattern = new MessagePattern(patternDto.getId(), patternDto.getTemplate(), patternDto.isAdv());
+                messageInfo.setPattern(pattern);
             }
-            messageInfoDtoObj.setStatus(messageInfoDto.isStatus());
-            return addMessageInfo(messageInfoDtoObj);
+            messageInfo.setStatus(messageInfoDto.isStatus());
+            messageInfo.setDate(messageInfoDto.getDate());
+            messageInfoRepository.save(messageInfo);
+            return MessageInfoMapper.toDto(messageInfo);
         } else {
             throw new EntityNotFoundException("MessageInfo with ID " + idMessInfo + " not found");
         }

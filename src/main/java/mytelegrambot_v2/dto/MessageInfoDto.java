@@ -1,16 +1,13 @@
 package mytelegrambot_v2.dto;
-
 import lombok.*;
-import mytelegrambot_v2.dto.MessagePatternDto;
-import mytelegrambot_v2.dto.PersonDto;
 import java.time.LocalDate;
 /**
  * Data Transfer Object (DTO) representing information about a message.
  */
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 public class MessageInfoDto {
     /**
      * The ID of the message.
